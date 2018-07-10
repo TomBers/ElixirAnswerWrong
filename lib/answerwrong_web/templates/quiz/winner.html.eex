@@ -1,0 +1,4 @@
+<h3>Winner</h3>
+<h4>Score - <%= @score %> / 5</h4>
+
+<%= link("Play again", to: "/play_again") %>

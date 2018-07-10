@@ -1,0 +1,5 @@
+<h2>New Question</h2>
+
+<%= render "form.html", Map.put(assigns, :action, question_path(@conn, :create)) %>
+
+<span><%= link "Back", to: question_path(@conn, :index) %></span>

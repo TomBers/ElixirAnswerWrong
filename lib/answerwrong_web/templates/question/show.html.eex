@@ -1,0 +1,23 @@
+<h2>Show Question</h2>
+
+<ul>
+
+  <li>
+    <strong>Question:</strong>
+    <%= @question.question %>
+  </li>
+
+  <li>
+    <strong>Answer:</strong>
+    <%= @question.answer %>
+  </li>
+
+  <li>
+    <strong>Display count:</strong>
+    <%= @question.display_count %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: question_path(@conn, :edit, @question) %></span>
+<span><%= link "Back", to: question_path(@conn, :index) %></span>

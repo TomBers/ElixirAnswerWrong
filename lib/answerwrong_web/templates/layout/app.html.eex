@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Answer-wrong</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <!-- <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>"> -->
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <nav role="navigation">
+        <ul class="nav nav-pills pull-right">
+          <li><%= link("Home", to: "/") %></li>
+          <li><%= link("Quiz", to: "/quiz") %></li>
+          <li><%= link("Questions", to: "/questions") %></li>
+          <li><%= link("Answers", to: "/answers") %></li>
+          <li><%= link("Leaderboard", to: "/leaderboard") %></li>
+          <li><%= link("Random answer", to: answer_path(@conn, :new)) %></li>
+        </ul>
+      </nav>
+      <span class="logo"></span>
+    </header>
+
+    <%= if get_flash(@conn, :info) do %>
+      <div id="card-alert" class="card light-blue">
+        <div class="card-content white-text">
+          <p><%= get_flash(@conn, :info) %></p>
+        </div>
+      </div>
+    <% end %>
+
+
+    <main role="main">
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+
+  </div> <!-- /container -->
+  <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+</body>
+</html>

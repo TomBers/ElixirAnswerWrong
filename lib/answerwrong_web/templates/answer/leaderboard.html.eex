@@ -1,0 +1,26 @@
+<h2>Listing Answers</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Question id</th>
+      <th>Text</th>
+      <th>Display count</th>
+      <th>Score</th>
+      <th>Score %</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for answer <- @answers do %>
+    <tr>
+      <td><%= answer.question_id %></td>
+      <td><%= answer.text %></td>
+      <td><%= answer.display_count %></td>
+      <td><%= answer.score %></td>
+      <td><%= Float.round((answer.score / answer.display_count) * 100, 2) %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

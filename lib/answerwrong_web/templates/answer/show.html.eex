@@ -1,0 +1,23 @@
+<h2>Show Answer</h2>
+
+<ul>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @answer.text %>
+  </li>
+
+  <li>
+    <strong>Display count:</strong>
+    <%= @answer.display_count %>
+  </li>
+
+  <li>
+    <strong>Score:</strong>
+    <%= @answer.score %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: answer_path(@conn, :edit, @answer) %></span>
+<span><%= link "Back", to: answer_path(@conn, :index) %></span>

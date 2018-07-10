@@ -1,0 +1,31 @@
+<h2>Listing Questions</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+      <th>Display count</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for question <- @questions do %>
+    <tr>
+      <td><%= question.question %></td>
+      <td><%= question.answer %></td>
+      <td><%= question.display_count %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: question_path(@conn, :show, question), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: question_path(@conn, :edit, question), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: question_path(@conn, :delete, question), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <span><%= link "New answer", to: answer_path(@conn, :new, %{"id" => question.id}), class: "btn btn-info btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Question", to: question_path(@conn, :new) %></span>

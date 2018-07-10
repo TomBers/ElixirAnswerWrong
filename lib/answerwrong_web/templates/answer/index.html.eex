@@ -1,0 +1,30 @@
+<h2>Listing Answers</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Question id</th>
+      <th>Text</th>
+      <th>Display count</th>
+      <th>Score</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for answer <- @answers do %>
+    <tr>
+      <td><%= answer.question_id %></td>
+      <td><%= answer.text %></td>
+      <td><%= answer.display_count %></td>
+      <td><%= answer.score %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: answer_path(@conn, :show, answer), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: answer_path(@conn, :edit, answer), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: answer_path(@conn, :delete, answer), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
