@@ -4,6 +4,8 @@ defmodule AnswerwrongWeb.AnswerController do
   alias Answerwrong.Content
   alias Answerwrong.Content.Answer
 
+  plug AnswerwrongWeb.Plugs.RequireUser when action in [:my_answers, :new]
+
   def index(conn, _params) do
     answers = Content.list_answers()
     render(conn, "index.html", answers: answers)
@@ -16,15 +18,26 @@ defmodule AnswerwrongWeb.AnswerController do
     render(conn, "leaderboard.html", answers: answers)
   end
 
+  # TODO - my answers leaderboard
+  def my_answers(conn, _params) do
+    user_id = get_session(conn, :user_id)
+    answers = Content.list_my_answers(user_id)
+    |> Enum.sort_by(fn(ans) -> (ans.score / ans.display_count) * 100 end)
+    |> Enum.reverse
+    render(conn, "leaderboard.html", answers: answers)
+  end
+
   def new(conn, %{"id" => question_id}) do
+    user_id = get_session(conn, :user_id)
     question = Content.get_question!(question_id)
-    changeset = Content.change_answer(%Answer{question_id: question_id})
+    changeset = Content.change_answer(%Answer{question_id: question_id, user_id: user_id})
     render(conn, "new.html", changeset: changeset, question: question)
   end
 
   def new(conn, _params) do
+    user_id = get_session(conn, :user_id)
     question = Content.get_random_question
-    changeset = Content.change_answer(%Answer{question_id: question.id})
+    changeset = Content.change_answer(%Answer{question_id: question.id, user_id: user_id})
     render(conn, "new.html", changeset: changeset, question: question)
   end
 
@@ -36,6 +49,10 @@ defmodule AnswerwrongWeb.AnswerController do
         |> redirect(to: answer_path(conn, :show, answer))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
+      {:duplicate} ->
+        conn
+        |> put_flash(:info, "Duplicate answer")
+        |> redirect(to: answer_path(conn, :new))
     end
   end
 

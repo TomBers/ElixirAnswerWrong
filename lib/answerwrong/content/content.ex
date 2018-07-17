@@ -130,6 +130,11 @@ defmodule Answerwrong.Content do
     Repo.all(Answer)
   end
 
+  def list_my_answers(user_id) do
+    from(ans in Answer, where: ans.user_id == ^user_id)
+    |> Repo.all
+  end
+
   @doc """
   Gets a single answer.
 
@@ -177,10 +182,27 @@ defmodule Answerwrong.Content do
 
   """
 
-  def create_answer(attrs \\ %{}) do
+  def create_answer_from_csv(attrs \\ %{}) do
     %Answer{}
     |> Answer.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def create_answer(attrs \\ %{}) do
+    qn = get_question!(Map.get(attrs, "question_id"))
+    user_ans = Map.get(attrs, "text")
+
+    if !is_duplicate(qn.answer, user_ans) do
+      %Answer{}
+      |> Answer.changeset(attrs)
+      |> Repo.insert()
+    else
+       {:duplicate}
+    end
+  end
+
+  defp is_duplicate(correct_answer, user_answer) do
+    String.replace(correct_answer, " ", "", global: true) |> String.downcase == String.replace(user_answer, " ", "", global: true) |> String.downcase
   end
 
   @doc """

@@ -1,8 +1,9 @@
-<h2>Listing Answers</h2>
+<h2>Leaderboard</h2>
 
 <table class="table">
   <thead>
     <tr>
+      <th>User id</th>
       <th>Question id</th>
       <th>Text</th>
       <th>Display count</th>
@@ -15,6 +16,7 @@
   <tbody>
 <%= for answer <- @answers do %>
     <tr>
+      <td><%= answer.user_id %></td>
       <td><%= answer.question_id %></td>
       <td><%= answer.text %></td>
       <td><%= answer.display_count %></td>

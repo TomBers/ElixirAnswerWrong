@@ -2,6 +2,8 @@ defmodule AnswerwrongWeb.QuizController do
   use AnswerwrongWeb, :controller
   alias Answerwrong.Content
 
+  plug AnswerwrongWeb.Plugs.RequireUser when action in [:quiz]
+
   def quiz(conn, _params) do
     seen_questions = get_session(conn, :seen_questions)
     {conn, encoded_answer_id} = set_answer_id(conn)
@@ -15,7 +17,7 @@ defmodule AnswerwrongWeb.QuizController do
     {conn, number_seen_questions} = set_session(conn, question, seen_questions)
 
     if number_seen_questions <= 5 do
-      render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions)
+      render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions, user_id: get_session(conn, :user_id))
     else
        render conn, "winner.html", score: get_session(conn, :score)
     end
@@ -53,6 +55,7 @@ defmodule AnswerwrongWeb.QuizController do
 
   def quiz_answer(conn, %{"_csrf_token" => _, "_utf8" => _, "answer" => encoded_answer_id}) do
     {status, answer_id} = Base.decode64(encoded_answer_id)
+
     if answer_id != get_session(conn, :answer_id) do
       Content.add_to_answer_score(answer_id)
     else

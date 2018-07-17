@@ -22,7 +22,9 @@
           <li><%= link("Questions", to: "/questions") %></li>
           <li><%= link("Answers", to: "/answers") %></li>
           <li><%= link("Leaderboard", to: "/leaderboard") %></li>
+          <li><%= link("My Answers", to: "/myanswers") %></li>
           <li><%= link("Random answer", to: answer_path(@conn, :new)) %></li>
+          <li><%= link("Login", to: "/users/new") %></li>
         </ul>
       </nav>
       <span class="logo"></span>

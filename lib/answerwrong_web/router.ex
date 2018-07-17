@@ -16,9 +16,11 @@ defmodule AnswerwrongWeb.Router do
   scope "/", AnswerwrongWeb do
     pipe_through :browser # Use the default browser stack
 
+    resources "/users", UserController
     resources "/questions", QuestionController
     resources "/answers", AnswerController
     get "/leaderboard", AnswerController, :leaderboard
+    get "/myanswers", AnswerController, :my_answers
 
     get "/", PageController, :index
     get "/quiz", QuizController, :quiz

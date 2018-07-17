@@ -8,6 +8,7 @@ defmodule Answerwrong.Content.Answer do
     field :score, :integer, default: 0
     field :text, :string
     belongs_to :question, Question
+    belongs_to :user, User
 
     timestamps()
   end
@@ -15,8 +16,9 @@ defmodule Answerwrong.Content.Answer do
   @doc false
   def changeset(answer, attrs) do
     answer
-    |> cast(attrs, [:text, :display_count, :score, :question_id])
+    |> cast(attrs, [:text, :display_count, :score, :question_id, :user_id])
     |> foreign_key_constraint(:question_id)
-    |> validate_required([:text, :question_id])
+    |> foreign_key_constraint(:user_id)
+    |> validate_required([:text, :question_id, :user_id])
   end
 end
