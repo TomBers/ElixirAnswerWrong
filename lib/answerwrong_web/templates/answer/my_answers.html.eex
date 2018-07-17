@@ -1,11 +1,11 @@
-<h2>Leaderboard</h2>
+<h2>My answers</h2>
 
 <table class="table">
   <thead>
     <tr>
-      <th>User id</th>
-      <th>Question id</th>
       <th>Answer id</th>
+      <th>Question</th>
+      <th>Answer</th>
       <th>Display count</th>
       <th>Score</th>
       <th>Score %</th>
@@ -16,9 +16,9 @@
   <tbody>
 <%= for answer <- @answers do %>
     <tr>
-      <td><%= answer.user.name %></td>
-      <td><%= answer.question.question %></td>
       <td><%= answer.id %></td>
+      <td><%= answer.question.question %></td>
+      <td><%= answer.text %></td>
       <td><%= answer.display_count %></td>
       <td><%= answer.score %></td>
       <td><%= Float.round((answer.score / answer.display_count) * 100, 2) %></td>

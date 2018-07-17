@@ -7,8 +7,8 @@ defmodule Answerwrong.Content.Answer do
     field :display_count, :integer, default: 0
     field :score, :integer, default: 0
     field :text, :string
-    belongs_to :question, Question
-    belongs_to :user, User
+    belongs_to :question, Answerwrong.Content.Question
+    belongs_to :user, Answerwrong.Account.User
 
     timestamps()
   end

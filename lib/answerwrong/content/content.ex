@@ -130,9 +130,20 @@ defmodule Answerwrong.Content do
     Repo.all(Answer)
   end
 
+  def leaderboard_answers do
+    Repo.all from ans in Answer,
+      join: usr in assoc(ans, :user),
+      join: qn in assoc(ans, :question),
+      where: ans.score >= 1,
+      preload: [user: usr],
+      preload: [question: qn]
+  end
+
   def list_my_answers(user_id) do
-    from(ans in Answer, where: ans.user_id == ^user_id)
-    |> Repo.all
+    Repo.all from ans in Answer,
+      join: qn in assoc(ans, :question),
+      where: ans.user_id == ^user_id and ans.score >= 1,
+      preload: [question: qn]
   end
 
   @doc """

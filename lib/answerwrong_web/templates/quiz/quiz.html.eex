@@ -1,13 +1,13 @@
-<h1>Question <%= @question_number %> : <%= @question %></h1>
+<h3><%= @question_number %>)<%= @question %></h3>
 
 <%= form_for @conn, quiz_path(@conn, :quiz_answer), fn f -> %>
   <%= for answer <- @answers do %>
     <p>
       <label>
-        <input name="answer" type="radio" value=<%= answer.id %> />
+        <input name="answer" type="radio" class="indigo accent-3" value=<%= answer.id %> />
         <span><%= answer.text %></span>
       </label>
     </p>
   <% end %>
-  <button type="submit" class="waves-effect waves-light btn-large">Submit</button>
+  <button type="submit" class="waves-effect waves-light btn-large indigo accent-3">Answer</button>
 <% end %>

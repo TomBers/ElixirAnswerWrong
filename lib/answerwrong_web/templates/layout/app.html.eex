@@ -15,16 +15,13 @@
 <body>
   <div class="container">
     <header class="header">
-      <nav role="navigation">
+      <nav role="navigation" class="indigo accent-3">
         <ul class="nav nav-pills pull-right">
           <li><%= link("Home", to: "/") %></li>
           <li><%= link("Quiz", to: "/quiz") %></li>
-          <li><%= link("Questions", to: "/questions") %></li>
-          <li><%= link("Answers", to: "/answers") %></li>
           <li><%= link("Leaderboard", to: "/leaderboard") %></li>
           <li><%= link("My Answers", to: "/myanswers") %></li>
           <li><%= link("Random answer", to: answer_path(@conn, :new)) %></li>
-          <li><%= link("Login", to: "/users/new") %></li>
         </ul>
       </nav>
       <span class="logo"></span>

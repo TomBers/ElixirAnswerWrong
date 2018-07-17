@@ -12,9 +12,10 @@ defmodule AnswerwrongWeb.AnswerController do
   end
 
   def leaderboard(conn, _params) do
-    answers = Content.list_answers()
+    answers = Content.leaderboard_answers()
     |> Enum.sort_by(fn(ans) -> (ans.score / ans.display_count) * 100 end)
     |> Enum.reverse
+    IO.inspect(answers)
     render(conn, "leaderboard.html", answers: answers)
   end
 
@@ -24,7 +25,7 @@ defmodule AnswerwrongWeb.AnswerController do
     answers = Content.list_my_answers(user_id)
     |> Enum.sort_by(fn(ans) -> (ans.score / ans.display_count) * 100 end)
     |> Enum.reverse
-    render(conn, "leaderboard.html", answers: answers)
+    render(conn, "my_answers.html", answers: answers)
   end
 
   def new(conn, %{"id" => question_id}) do
