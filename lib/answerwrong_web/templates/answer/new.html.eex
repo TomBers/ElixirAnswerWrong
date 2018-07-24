@@ -1,5 +1,3 @@
-<h2>New Answer</h2>
-<h3>Question : <%= @question.question %></h3>
+<h3>Add new answer</h3>
+<h4><strong>Question</strong> : <%= @question.question %></h4>
 <%= render "form.html", Map.put(assigns, :action, answer_path(@conn, :create)) %>
-
-<span><%= link "Back", to: answer_path(@conn, :index) %></span>

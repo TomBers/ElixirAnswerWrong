@@ -1,4 +1,4 @@
-<h3><%= @question_number %>)<%= @question %></h3>
+<h4><%= @question_number %>)<%= @question %></h4>
 
 <%= form_for @conn, quiz_path(@conn, :quiz_answer), fn f -> %>
   <%= for answer <- @answers do %>

@@ -16,15 +16,13 @@
   <div class="container">
     <header class="header">
       <nav role="navigation" class="indigo accent-2">
-        <ul class="nav nav-pills pull-right">
-          <li><%= link("Home", to: "/") %></li>
-          <li><%= link("Create an answerWrong", to: answer_path(@conn, :new)) %></li>
-          <li><%= link("Play quiz", to: "/quiz") %></li>
-          <li><%= link("My Answers", to: "/myanswers") %></li>
-          <li><%= link("Global Leaderboard", to: "/leaderboard") %></li>
+        <ul>
+          <li><%= link("/", to: "/") %></li>
+          <li><%= link("answerWrong", to: answer_path(@conn, :new)) %></li>
+          <li><%= link("quiz", to: "/quiz") %></li>
+          <li><%= link("myAnswers", to: "/myanswers") %></li>
         </ul>
       </nav>
-      <span class="logo"></span>
     </header>
 
     <%= if get_flash(@conn, :info) do %>

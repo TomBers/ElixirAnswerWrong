@@ -1,4 +1,4 @@
-<h2>My answers</h2>
+<h3>myAnswers</h3>
 
 <table class="table">
   <thead>
@@ -26,3 +26,4 @@
 <% end %>
   </tbody>
 </table>
+<%= link("Global leaderboard", to: "/leaderboard") %>
