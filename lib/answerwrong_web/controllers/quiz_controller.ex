@@ -3,12 +3,13 @@ defmodule AnswerwrongWeb.QuizController do
   alias Answerwrong.Content
 
   plug AnswerwrongWeb.Plugs.RequireUser when action in [:quiz]
+  plug AnswerwrongWeb.Plugs.QuizSession when action in [:quiz, :quiz_answer]
 
   def quiz(conn, _params) do
     seen_questions = get_session(conn, :seen_questions)
     {conn, encoded_answer_id} = set_answer_id(conn)
 
-    question = Content.get_random_question
+    question = get_unique_question(seen_questions)
     Content.update_question_view_count(question.id)
     answers = Content.get_all_answers_for_question(question.id) |> Enum.map(fn(answer) -> %{id: Base.encode64("#{answer.id}"), text: answer.text} end)
     all_ans = List.insert_at(answers, 0, %{id: encoded_answer_id, text: question.answer})
@@ -16,11 +17,19 @@ defmodule AnswerwrongWeb.QuizController do
     # Sort out the session - record the questions seen this session
     {conn, number_seen_questions} = set_session(conn, question, seen_questions)
 
-    if number_seen_questions <= 5 do
-      render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions, user_id: get_session(conn, :user_id))
-    else
-       render conn, "winner.html", score: get_session(conn, :score)
+    render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions, user_id: get_session(conn, :user_id))
+  end
+
+  defp get_unique_question(seen_questions) do
+    question = Content.get_random_question
+    case Enum.member?(seen_questions, question.id) do
+      true -> get_unique_question(seen_questions)
+      false -> question
     end
+  end
+
+  def winner(conn, _params) do
+    render conn, "winner.html", score: get_session(conn, :score)
   end
 
   defp set_answer_id(conn) do
@@ -36,21 +45,12 @@ defmodule AnswerwrongWeb.QuizController do
   end
 
   defp set_session(conn, question, seen_questions) do
-    if seen_questions do
-      conn = put_session(conn, :seen_questions, List.insert_at(seen_questions, 0, question.id))
-    else
-      conn = put_session(conn, :seen_questions, [question.id])
-    end
+    conn = put_session(conn, :seen_questions, List.insert_at(seen_questions, 0, question.id))
     {conn, length(get_session(conn, :seen_questions))}
   end
 
   defp update_quiz_score(conn) do
-    score = get_session(conn, :score)
-    if score do
-      conn = put_session(conn, :score, score + 1)
-    else
-      conn = put_session(conn, :score, 1)
-    end
+    put_session(conn, :score, get_session(conn, :score) + 1)
   end
 
   def quiz_answer(conn, %{"_csrf_token" => _, "_utf8" => _, "answer" => encoded_answer_id}) do
@@ -61,6 +61,21 @@ defmodule AnswerwrongWeb.QuizController do
     else
       conn = update_quiz_score(conn)
     end
+
+    redirect_quiz(conn, get_session(conn, :seen_questions))
+  end
+
+  def quiz_answer(conn, %{"_csrf_token" => _, "_utf8" => _}) do
+    redirect_quiz(conn, get_session(conn, :seen_questions))
+  end
+
+
+  defp redirect_quiz(conn, seen_questions) when length(seen_questions) >= 5 do
+    redirect(conn, to: quiz_path(conn, :winner))
+  end
+
+  defp redirect_quiz(conn, seen_questions) do
     redirect(conn, to: quiz_path(conn, :quiz))
   end
+
 end

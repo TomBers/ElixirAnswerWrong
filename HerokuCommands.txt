@@ -1,0 +1,11 @@
+heroku create --buildpack "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+heroku buildpacks:add https://github.com/gjaldon/heroku-buildpack-phoenix-static.git
+git push heroku master
+heroku addons:create heroku-postgresql:hobby-dev
+heroku config:set POOL_SIZE=18
+mix phx.gen.secret
+heroku config:set SECRET_KEY_BASE="**Previous Command output**"
+heroku login
+git push heroku master
+heroku run "POOL_SIZE=2 mix ecto.migrate"
+heroku run "POOL_SIZE=2 iex -S mix"

@@ -24,6 +24,7 @@ defmodule AnswerwrongWeb.Router do
 
     get "/", PageController, :index
     get "/quiz", QuizController, :quiz
+    get "/winner", QuizController, :winner
     post "/answer", QuizController, :quiz_answer
     get "/play_again", QuizController, :play_again
   end
