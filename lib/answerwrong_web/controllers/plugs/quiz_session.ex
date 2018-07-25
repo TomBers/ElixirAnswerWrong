@@ -1,8 +1,5 @@
 defmodule AnswerwrongWeb.Plugs.QuizSession do
   import Plug.Conn
-  import Phoenix.Controller
-
-  alias AnswerwrongWeb.Router.Helpers
 
   def init(_params) do
   end
@@ -14,20 +11,16 @@ defmodule AnswerwrongWeb.Plugs.QuizSession do
   end
 
   defp initialise_score(conn) do
-    if get_session(conn, :score) do
-      conn
-    else
-      conn
-      |> put_session(:score, 0)
+    case get_session(conn, :score) do
+      nil -> conn |> put_session(:score, 0)
+      _ -> conn
     end
   end
 
   defp initialise_seen_answers(conn) do
-    if get_session(conn, :seen_questions) do
-      conn
-    else
-      conn
-      |> put_session(:seen_questions, [])
+    case get_session(conn, :seen_questions) do
+      nil -> conn |> put_session(:seen_questions, [])
+      _ -> conn
     end
   end
 

@@ -53,13 +53,18 @@ defmodule AnswerwrongWeb.QuizController do
     put_session(conn, :score, get_session(conn, :score) + 1)
   end
 
-  def quiz_answer(conn, %{"_csrf_token" => _, "_utf8" => _, "answer" => encoded_answer_id}) do
-    {status, answer_id} = Base.decode64(encoded_answer_id)
+  defp add_to_answer_score(conn, answer_id) do
+    Content.add_to_answer_score(answer_id)
+    conn
+  end
 
-    if answer_id != get_session(conn, :answer_id) do
-      Content.add_to_answer_score(answer_id)
-    else
-      conn = update_quiz_score(conn)
+  def quiz_answer(conn, %{"_csrf_token" => _, "_utf8" => _, "answer" => encoded_answer_id}) do
+    {_, answer_id} = Base.decode64(encoded_answer_id)
+
+    conn =
+      case answer_id != get_session(conn, :answer_id) do
+        true -> add_to_answer_score(conn, answer_id)
+        false -> update_quiz_score(conn)
     end
 
     redirect_quiz(conn, get_session(conn, :seen_questions))
@@ -74,7 +79,7 @@ defmodule AnswerwrongWeb.QuizController do
     redirect(conn, to: quiz_path(conn, :winner))
   end
 
-  defp redirect_quiz(conn, seen_questions) do
+  defp redirect_quiz(conn, _) do
     redirect(conn, to: quiz_path(conn, :quiz))
   end
 
