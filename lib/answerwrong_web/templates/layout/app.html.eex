@@ -9,20 +9,35 @@
 
   <title>Answer-wrong</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!-- <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>"> -->
 </head>
 
 <body>
   <div class="container">
     <header class="header">
-      <nav role="navigation" class="indigo accent-2">
-        <ul>
-          <li><%= link("/", to: "/") %></li>
-          <li><%= link("answerWrong", to: answer_path(@conn, :new)) %></li>
-          <li><%= link("quiz", to: "/quiz") %></li>
-          <li><%= link("myAnswers", to: "/myanswers") %></li>
-        </ul>
+      <nav class="indigo accent-2">
+        <div class="nav-wrapper">
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><%= link("About", to: "/") %></li>
+            <li><%= link("New answerWrong", to: answer_path(@conn, :new)) %></li>
+            <li><%= link("Play quiz", to: "/quiz") %></li>
+            <li><%= link("My answers", to: "/myanswers") %></li>
+            <li><%= link("Global leaderboard", to: "/leaderboard") %></li>
+          </ul>
+        </div>
       </nav>
+
+      <ul class="sidenav" id="mobile-demo">
+        <li><%= link("About", to: "/") %></li>
+        <li><%= link("New answerWrong", to: answer_path(@conn, :new)) %></li>
+        <li><%= link("Play quiz", to: "/quiz") %></li>
+        <li><%= link("My answers", to: "/myanswers") %></li>
+        <li><%= link("Global leaderboard", to: "/leaderboard") %></li>
+      </ul>
+
+
     </header>
 
     <%= if get_flash(@conn, :info) do %>
@@ -39,6 +54,7 @@
     </main>
 
   </div> <!-- /container -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 </body>
 </html>

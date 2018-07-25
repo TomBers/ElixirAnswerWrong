@@ -1,6 +1,6 @@
 <h2>Leaderboard</h2>
 
-<table class="table">
+<table class="responsive-table highlight">
   <thead>
     <tr>
       <th>User id</th>

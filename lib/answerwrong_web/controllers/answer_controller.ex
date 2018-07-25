@@ -15,11 +15,9 @@ defmodule AnswerwrongWeb.AnswerController do
     answers = Content.leaderboard_answers()
     |> Enum.sort_by(fn(ans) -> (ans.score / ans.display_count) * 100 end)
     |> Enum.reverse
-    IO.inspect(answers)
     render(conn, "leaderboard.html", answers: answers)
   end
 
-  # TODO - my answers leaderboard
   def my_answers(conn, _params) do
     user_id = get_session(conn, :user_id)
     answers = Content.list_my_answers(user_id)

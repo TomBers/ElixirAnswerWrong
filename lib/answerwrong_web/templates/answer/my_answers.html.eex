@@ -1,6 +1,6 @@
 <h3>myAnswers</h3>
 
-<table class="table">
+<table class="responsive-table highlight">
   <thead>
     <tr>
       <th>Answer id</th>
@@ -26,4 +26,3 @@
 <% end %>
   </tbody>
 </table>
-<%= link("Global leaderboard", to: "/leaderboard") %>
