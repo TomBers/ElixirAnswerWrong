@@ -1,3 +1,14 @@
+<p>
+  You can offer <strong><%= @answer_tokens %></strong> new answer(s)
+  <%= if @answer_tokens > 0  do %>
+  <a href="/answers/new" class="btn-floating btn-small blue">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+  <%= else %>
+    (answer more questions to earn credits)
+  <% end %>
+</p>
+
 <h4><%= @question_number %>)<%= @question %></h4>
 
 <%= form_for @conn, quiz_path(@conn, :quiz_answer), fn f -> %>

@@ -5,6 +5,7 @@ defmodule AnswerwrongWeb.AnswerController do
   alias Answerwrong.Content.Answer
 
   plug AnswerwrongWeb.Plugs.RequireUser when action in [:my_answers, :new]
+  plug AnswerwrongWeb.Plugs.CheckAnswerToken when action in [:new]
 
   def index(conn, _params) do
     answers = Content.list_answers()
@@ -40,10 +41,19 @@ defmodule AnswerwrongWeb.AnswerController do
     render(conn, "new.html", changeset: changeset, question: question)
   end
 
+  defp decrement_answer_token(conn) do
+    answer_tokens = get_session(conn, :answer_tokens)
+    case answer_tokens > 1 do
+      true -> put_session(conn, :answer_tokens, answer_tokens - 1)
+      false -> put_session(conn, :answer_tokens, 0)
+    end
+  end
+
   def create(conn, %{"answer" => answer_params}) do
     case Content.create_answer(answer_params) do
       {:ok, answer} ->
         conn
+        |> decrement_answer_token
         |> put_flash(:info, "Answer created successfully.")
         |> redirect(to: answer_path(conn, :show, answer))
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -17,7 +17,7 @@ defmodule AnswerwrongWeb.QuizController do
     # Sort out the session - record the questions seen this session
     {conn, number_seen_questions} = set_session(conn, question, seen_questions)
 
-    render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions, user_id: get_session(conn, :user_id))
+    render(conn, "quiz.html", question_id: question.id, question: question.question, answers: Enum.shuffle(all_ans), question_number: number_seen_questions, user_id: get_session(conn, :user_id), answer_tokens: get_session(conn, :answer_tokens))
   end
 
   defp get_unique_question(seen_questions) do
@@ -29,7 +29,7 @@ defmodule AnswerwrongWeb.QuizController do
   end
 
   def winner(conn, _params) do
-    render conn, "winner.html", score: get_session(conn, :score)
+    render conn, "winner.html", score: get_session(conn, :score), answer_tokens: get_session(conn, :answer_tokens)
   end
 
   defp set_answer_id(conn) do
@@ -51,6 +51,10 @@ defmodule AnswerwrongWeb.QuizController do
 
   defp update_quiz_score(conn) do
     put_session(conn, :score, get_session(conn, :score) + 1)
+  end
+
+  defp update_answer_tokens(conn) do
+    put_session(conn, :answer_tokens, get_session(conn, :answer_tokens) + 1)
   end
 
   defp add_to_answer_score(conn, answer_id) do
@@ -76,6 +80,7 @@ defmodule AnswerwrongWeb.QuizController do
 
 
   defp redirect_quiz(conn, seen_questions) when length(seen_questions) >= 5 do
+    conn = update_answer_tokens(conn)
     redirect(conn, to: quiz_path(conn, :winner))
   end
 
