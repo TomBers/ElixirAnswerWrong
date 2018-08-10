@@ -54,6 +54,8 @@ defmodule AnswerwrongWeb.AnswerController do
       {:ok, answer} ->
         conn
         |> decrement_answer_token
+        |> put_session(:seen_questions, [])
+        |> put_session(:score, 0)
         |> put_flash(:info, "Answer created successfully.")
         |> redirect(to: answer_path(conn, :show, answer))
       {:error, %Ecto.Changeset{} = changeset} ->
