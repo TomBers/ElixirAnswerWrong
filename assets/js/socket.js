@@ -73,12 +73,12 @@ function renderMultipleChoice(resp) {
    Object.keys(resp).forEach(function(element) {
      answers.push(answerTemplate(resp[element]));
    });
-   answers.push(`<button class="btn btn-primary" id="quizAnswer">Answer</button>`);
+   answers.push(`<br /><br /><button class="btn btn-primary" id="quizAnswer">Answer</button>`);
    return answers.join("")
 }
 
 function answerTemplate(answer) {
-    return `      <label>
+    return `      <label style="display: block;">
                     <input name="answer" id=${answer.id} type="radio" class="indigo accent-3" />
                     <span>${answer.answer}</span>
                   </label>`
