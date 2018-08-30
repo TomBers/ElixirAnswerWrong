@@ -22,6 +22,7 @@
           <ul class="right hide-on-med-and-down">
             <li><%= link("About", to: "/") %></li>
             <li><%= link("Play", to: "/quiz") %></li>
+            <li><%= link("Multiplayer", to: "/multiplayer") %></li>
             <li><%= link("My answers", to: "/myanswers") %></li>
             <li><%= link("Leaderboard", to: "/leaderboard") %></li>
           </ul>
@@ -31,6 +32,7 @@
       <ul class="sidenav" id="mobile-demo">
         <li><%= link("About", to: "/") %></li>
         <li><%= link("Play", to: "/quiz") %></li>
+        <li><%= link("Multiplayer", to: "/multiplayer") %></li>
         <li><%= link("My answers", to: "/myanswers") %></li>
         <li><%= link("Leaderboard", to: "/leaderboard") %></li>
       </ul>
@@ -53,6 +55,7 @@
 
   </div> <!-- /container -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+  <script>window.userToken = "<%= assigns[:user_token] %>"</script>
   <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
 </body>
 </html>

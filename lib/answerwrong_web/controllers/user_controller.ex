@@ -28,7 +28,7 @@ defmodule AnswerwrongWeb.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Account.get_user!(id)
-    render(conn, "show.html", user: user)
+    render(put_session(conn, :current_user_id, id), "show.html", user: user)
   end
 
   def edit(conn, %{"id" => id}) do

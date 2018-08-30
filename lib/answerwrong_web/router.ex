@@ -27,6 +27,8 @@ defmodule AnswerwrongWeb.Router do
     get "/winner", QuizController, :winner
     post "/answer", QuizController, :quiz_answer
     get "/play_again", QuizController, :play_again
+
+    get "/multiplayer", MultiPlayerController, :room
   end
 
   # Other scopes may use custom stacks.

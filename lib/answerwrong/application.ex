@@ -12,6 +12,8 @@ defmodule Answerwrong.Application do
       supervisor(Answerwrong.Repo, []),
       # Start the endpoint when the application starts
       supervisor(AnswerwrongWeb.Endpoint, []),
+      supervisor(AnswerwrongWeb.Presence, []),
+      worker(AnswerwrongWeb.Monitor, [%{}])
       # Start your own worker by calling: Answerwrong.Worker.start_link(arg1, arg2, arg3)
       # worker(Answerwrong.Worker, [arg1, arg2, arg3]),
     ]

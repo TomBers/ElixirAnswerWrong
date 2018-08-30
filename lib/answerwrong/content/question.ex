@@ -2,7 +2,7 @@ defmodule Answerwrong.Content.Question do
   use Ecto.Schema
   import Ecto.Changeset
 
-
+  @derive {Poison.Encoder, only: [:id, :question, :answer]}
   schema "questions" do
     field :answer, :string
     field :display_count, :integer, default: 0
