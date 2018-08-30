@@ -32,20 +32,22 @@ channel.on("message:state_updated", setState);
 
 
 function setState(resp) {
+    const states = {initial: 0, enter_answer: 1, waiting: 2, quiz: 3};
+
     const state = current_user_id in resp ? resp[current_user_id].state : 0;
 
     switch(state) {
-        case 0: document.querySelector("#playArea").innerHTML = renderInitalState(resp); addInitialEventListener(); break;
-        case 1: document.querySelector("#playArea").innerHTML = setQuestion(resp); addQuestionEvent(); break;
-        case 2: document.querySelector("#playArea").innerHTML = "<p>Waiting</p>"; break;
-        case 3: document.querySelector("#playArea").innerHTML = renderMultipleChoice(resp); setupQuizEvent(); break;
+        case states.initial: document.querySelector("#playArea").innerHTML = renderInitalState(resp); addInitialEventListener(); break;
+        case states.enter_answer: document.querySelector("#playArea").innerHTML = setQuestion(resp); addQuestionEvent(); break;
+        case states.waiting: document.querySelector("#playArea").innerHTML = "<p>Waiting</p>"; break;
+        case states.quiz: document.querySelector("#playArea").innerHTML = renderMultipleChoice(resp); setupQuizEvent(); break;
         default: document.querySelector("#playArea").innerHTML = "<p>Error</p>";
     }
 }
 
 function renderInitalState(resp) {
     const score = current_user_id in resp ? resp[current_user_id].score : 0
-    return `<p>Winner winner chicken dinner - my score <strong>${score}</strong></p><button id="start">Start</button>`;
+    return `<p>Score <strong>${score}</strong></p><button id="start">Next question</button>`;
 }
 
 function addInitialEventListener() {

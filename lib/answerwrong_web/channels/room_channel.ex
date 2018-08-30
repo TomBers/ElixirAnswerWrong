@@ -27,12 +27,6 @@ defmodule AnswerwrongWeb.RoomChannel do
       {:noreply, socket}
     end
 
-
-    def handle_in(name, %{"msg" => message}, socket) do
-      broadcast!(socket, "message:new", %{msg: message})
-      {:reply, :ok, socket}
-    end
-
     def handle_in("message:start", params, socket) do
       question = Content.get_random_question
       Monitor.add_question(question)
