@@ -70,11 +70,30 @@ function setupQuizEvent() {
 
 function renderMultipleChoice(resp) {
    let answers = [`<h3>${resp["current_question"].question}</h3>`];
-   Object.keys(resp).forEach(function(element) {
+   shuffle(Object.keys(resp)).forEach(function(element) {
      answers.push(answerTemplate(resp[element]));
    });
    answers.push(`<br /><br /><button class="btn btn-primary" id="quizAnswer">Answer</button>`);
    return answers.join("")
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 function answerTemplate(answer) {
