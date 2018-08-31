@@ -14,6 +14,13 @@ defmodule AnswerwrongWeb.RoomChannel do
       {:ok, %{current_user_id: socket.assigns[:current_user_id], current_user_name: user.name} , socket}
     end
 
+    def terminate(msg, socket) do
+      user_id = socket.assigns.current_user_id
+      Monitor.user_left(user_id)
+      broadcast!(socket, "message:state_updated", Monitor.get_state())
+      {:ok, socket}
+    end
+
     def handle_info(:after_join, socket) do
       push socket, "presence_state", AnswerwrongWeb.Presence.list(socket)
 

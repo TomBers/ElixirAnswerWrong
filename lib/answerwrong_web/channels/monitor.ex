@@ -11,6 +11,11 @@ defmodule AnswerwrongWeb.Monitor do
     put_users_into_state(@states.enter_answer)
   end
 
+  def user_left(user_id) do
+    Agent.update(__MODULE__, fn(state) -> Map.delete(state, user_id) end)
+    put_users_into_state(@states.initial)
+  end
+
   def current_question do
     Agent.get(__MODULE__, fn(state) -> state["current_question"] end)
   end
